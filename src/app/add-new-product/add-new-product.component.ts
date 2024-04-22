@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { Product } from '../_model/product.model';
 import { NgForm } from '@angular/forms';
 import { ProductService } from '../_services/product.service';
@@ -35,6 +35,7 @@ export class AddNewProductComponent {
       (response: Product) => {
         // console.log(response)
         productForm.reset();
+        this.product.productImages=[];
       },
       (error: HttpErrorResponse) => {
         console.log(error)
@@ -75,5 +76,13 @@ export class AddNewProductComponent {
       }
       this.product.productImages.push(fileHandle);
     }
+  }
+
+  removeImages(i:number){
+    this.product.productImages.splice(i,1);
+  }
+
+  fileDropped(fileHandle:FileHandle){
+    this.product.productImages.push(fileHandle);
   }
 }
