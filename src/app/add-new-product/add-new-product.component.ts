@@ -1,20 +1,23 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Product } from '../_model/product.model';
 import { NgForm } from '@angular/forms';
 import { ProductService } from '../_services/product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FileHandle } from '../_model/file-handle.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-new-product',
   templateUrl: './add-new-product.component.html',
   styleUrls: ['./add-new-product.component.css']
 })
-export class AddNewProductComponent {
+export class AddNewProductComponent implements OnInit{
 
+  isNewProduct=true;
 
   product: Product = {
+    productId:0,
     productName: "",
     productDescription: "",
     productDiscountedPrice: 0,
@@ -23,8 +26,17 @@ export class AddNewProductComponent {
   }
 
   constructor(private productService: ProductService,
-              private sanitizer:DomSanitizer
+              private sanitizer:DomSanitizer,
+              private activatedRoute:ActivatedRoute
   ) { }
+
+
+  ngOnInit(): void {
+   this.product = this.activatedRoute.snapshot.data['product'];
+   if(this.product && this.product.productId !=0){
+      this.isNewProduct=false;
+   }
+  }
 
   addProduct(productForm: NgForm) {
     // console.log(this.product)

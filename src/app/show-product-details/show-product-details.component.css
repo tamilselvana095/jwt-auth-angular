@@ -2,3 +2,11 @@ table{
     width: 100%;
     
 }
+
+td{
+    padding: 10px;
+}
+
+.mat-column-description{
+    width: 35% !important;
+}

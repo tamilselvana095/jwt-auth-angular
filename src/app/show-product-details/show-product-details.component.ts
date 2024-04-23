@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ShowProductImagesDialogComponent } from '../show-product-images-dialog/show-product-images-dialog.component';
 import { ImageProcessingService } from '../_services/image-processing.service';
 import { map } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,11 +17,12 @@ import { map } from 'rxjs';
 export class ShowProductDetailsComponent implements OnInit {
 
   productDetails: Product[] = [];
-  displayedColumns: string[] = ['Id', 'Product Name', 'Product Description', 'Product Discounted Price', 'Product Actual Price', 'Images', 'Edit', 'Delete'];
+  displayedColumns: string[] = ['Id', 'Product Name', 'description', 'Product Discounted Price', 'Product Actual Price', 'Actions'];
 
   constructor(private productService: ProductService,
     public imagesDialog: MatDialog,
-    private imageProcessingService:ImageProcessingService
+    private imageProcessingService: ImageProcessingService,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
@@ -30,18 +32,18 @@ export class ShowProductDetailsComponent implements OnInit {
 
   public getAllProducts() {
     this.productService.getAllProducts()
-    .pipe(
-      map((x :Product[], i)=> x.map((product:Product)=>this.imageProcessingService.createImages(product)))
-    )
-    .subscribe(
-      (response: Product[]) => {
-        console.log(response);
-        this.productDetails = response;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error)
-      }
-    );
+      .pipe(
+        map((x: Product[], i) => x.map((product: Product) => this.imageProcessingService.createImages(product)))
+      )
+      .subscribe(
+        (response: Product[]) => {
+          console.log(response);
+          this.productDetails = response;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error)
+        }
+      );
   }
 
   public deleteProduct(productId: number) {
@@ -59,13 +61,19 @@ export class ShowProductDetailsComponent implements OnInit {
 
   public showImages(product: Product) {
     console.log(product);
-    this.imagesDialog.open(ShowProductImagesDialogComponent,{
-      data:{
+    this.imagesDialog.open(ShowProductImagesDialogComponent, {
+      data: {
         images: product.productImages
       },
-      height:'500px',
-      width:'800px'
+      height: '500px',
+      width: '800px'
     });
+  }
+
+  public editProductDetails(productId: number) {
+    // console.log(productId);
+    this.router.navigate(['/addNewProduct', {productId:productId}])
+
   }
 
 

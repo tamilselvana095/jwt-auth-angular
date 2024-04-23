@@ -1,15 +1,13 @@
-mat-grid-tile{
-    border: 1px solid lightgray;
-    border-radius: 5px;
+.product-information{
+    font-size: medium;
 }
 
 .image-container{
+    height: 500px;
     position: relative;
-    height: 200px;
 }
 
-.home-page-product-image{
-
+.product-zoom-image{
     max-width: 90%;
     max-height: 90%;
     position: absolute;
@@ -18,5 +16,4 @@ mat-grid-tile{
     left: 0;
     right: 0;
     margin: auto;
-
 }
