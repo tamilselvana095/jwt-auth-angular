@@ -37,6 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
         catchError(
             (err:HttpErrorResponse) => {
                 console.log(err.status);
+                console.log(token);
                 if(err.status === 401) {
                     this.router.navigate(['/login']);
                 } else if(err.status === 403) {
