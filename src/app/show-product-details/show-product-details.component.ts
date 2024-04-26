@@ -16,6 +16,9 @@ import { Router } from '@angular/router';
 })
 export class ShowProductDetailsComponent implements OnInit {
 
+  pageNumber:number=0;
+  showTable=false;
+  showLoadMoreProductButton=false;
   productDetails: Product[] = [];
   displayedColumns: string[] = ['Id', 'Product Name', 'description', 'Product Discounted Price', 'Product Actual Price', 'Actions'];
 
@@ -31,14 +34,25 @@ export class ShowProductDetailsComponent implements OnInit {
 
 
   public getAllProducts() {
-    this.productService.getAllProducts()
+
+    this.showTable=false;
+    this.productService.getAllProducts(this.pageNumber)
       .pipe(
         map((x: Product[], i) => x.map((product: Product) => this.imageProcessingService.createImages(product)))
       )
       .subscribe(
         (response: Product[]) => {
           console.log(response);
-          this.productDetails = response;
+          //this.productDetails = response;
+
+          response.forEach(p=>this.productDetails.push(p));
+          this.showTable=true
+
+          if(response.length === 12){
+            this.showLoadMoreProductButton=true;
+          }else{
+            this.showLoadMoreProductButton=false;
+          }
         },
         (error: HttpErrorResponse) => {
           console.log(error)
@@ -76,5 +90,9 @@ export class ShowProductDetailsComponent implements OnInit {
 
   }
 
+  loadMoreProduct(){
+    this.pageNumber=this.pageNumber+1;
+    this.getAllProducts();
+  }
 
 }
