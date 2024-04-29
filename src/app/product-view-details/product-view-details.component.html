@@ -8,7 +8,8 @@
 
             <div class="mt-2">
                 <mat-grid-list cols="3" gutterSize="10" rowHeight="1:1">
-                    <mat-grid-tile *ngFor="let file of product.productImages let i=index" (click)="changeIndex(i)" style="border: 1px solid lightgray; cursor: pointer;">
+                    <mat-grid-tile *ngFor="let file of product.productImages let i=index" (click)="changeIndex(i)"
+                        style="border: 1px solid lightgray; cursor: pointer;">
                         <img [src]="file.url" alt="" height="100px" width="100px">
 
                     </mat-grid-tile>
@@ -32,7 +33,10 @@
                         style="text-decoration: line-through;">{{product.productActualPrice}}</b>
                 </div>
                 <div class="mt-5 text-center">
-                    <button mat-raised-button color="warn" style="width: 200px;" (click)="buyProduct(product.productId)">Buy Now</button>
+                    <button mat-raised-button color="warn" style="width: 200px;"
+                        (click)="buyProduct(product.productId)">Buy Now</button> &nbsp;
+                    <button mat-raised-button style="width: 200px;" (click)="addToCart(product.productId)">Add to Cart</button>
+
                 </div>
 
             </div>

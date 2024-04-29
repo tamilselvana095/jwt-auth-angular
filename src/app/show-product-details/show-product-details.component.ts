@@ -33,10 +33,10 @@ export class ShowProductDetailsComponent implements OnInit {
   }
 
 
-  public getAllProducts() {
+  public getAllProducts(searchKeyword:string="") {
 
     this.showTable=false;
-    this.productService.getAllProducts(this.pageNumber)
+    this.productService.getAllProducts(this.pageNumber,searchKeyword)
       .pipe(
         map((x: Product[], i) => x.map((product: Product) => this.imageProcessingService.createImages(product)))
       )
@@ -58,6 +58,12 @@ export class ShowProductDetailsComponent implements OnInit {
           console.log(error)
         }
       );
+  }
+
+  searchByKeyword(searchKeyword){
+    this.pageNumber=0;
+    this.productDetails=[];
+    this.getAllProducts(searchKeyword)
   }
 
   public deleteProduct(productId: number) {
@@ -94,5 +100,7 @@ export class ShowProductDetailsComponent implements OnInit {
     this.pageNumber=this.pageNumber+1;
     this.getAllProducts();
   }
+
+  
 
 }
