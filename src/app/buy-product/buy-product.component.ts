@@ -82,6 +82,7 @@ export class BuyProductComponent implements OnInit {
     this.orderDetails.orderProductQuantityList.filter(
       (orderProduct)=>orderProduct.productId === productId
     )[0].quantity = quantity;
+    
   }
 
   getCalculatedGrandTotal(){
